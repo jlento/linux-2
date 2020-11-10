@@ -70,6 +70,10 @@ body {
     margin: 0;
 }
 
+code {
+    font-family: courier;
+}
+
 .slide > .title-slide {
     margin-left: 0px;
     width: 100%;
@@ -114,9 +118,8 @@ h2, h3 {
     margin-right: var(--padding-left);
 }
 
-.language-bash {
-    margin-left: calc(3em + var(--padding-left));
-    margin-right: var(--padding-left);
+pre > code {
+    margin-left: 1em;
 }
 
 .slide > table {

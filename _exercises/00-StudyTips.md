@@ -1,23 +1,32 @@
 ---
-title: Study Tips exercises
+title: Study Tips
 ---
 
+# Study Tips
 
-# Bash-fu attitude
+## Bash-fu attitude
 
-This exercise shows the evolution a Bash function. The function is a small part
-of a larger script. The exercise is to read it, to understand how it works, and
-to spot different Bash language constructs. It can be hard to follow at first,
-but return to this exercise later in the course, and see if it is any easier to
-read then.
+This exercise shows how it sometimes takes a longer trip to develop a nice Bash
+function. Our example function here is a small part of a larger script. The
+exercise is to read the Bash code, to understand how each iteration of the
+function works, and to spot different Bash language constructs.
+
+We do not expect you to understand all the details in the code at this
+point. If everything is familiar and crystal clear immediately, this course may
+be too easy for you. See what you can easily get out of the code now at the
+beginning of the course, and return to this exercise later in the course, and
+see how much you have learned!
+
+The true lesson of this exercise is that when you understand what the code needs
+to do, and what different commands can do, the implementation becomes obvious.
 
 
-## Iteration 0, the original version
+### Iteration 0, the original version
 
 First, let's figure out what this function is supposed to do. It can be
 difficult from the source only. In "real life" cases, spend some time here, ask
 the person who wrote it in the first place, etc. Sometimes it can be easier to
-start cleaning the original script, and figure out what is going on while
+start cleaning the original script, and figuring out what is going on while
 cleaning.
 
 ```bash
@@ -86,7 +95,7 @@ export -f quota
 What is that `export` command doing and why it is there?
 
 
-## Iteration 1, cleaning and adding "tricks"
+### Iteration 1, cleaning and adding "tricks"
 
 Not really thinking what the function does, just cleaning it.
 
@@ -139,9 +148,10 @@ function temp_quotaquery() {
 Having read the man page of `quota`command, a colleague immediately spotted an
 error in the script. In the case of the user exceeding the quota, the `quota`
 command returns non-zero exit value. This drops out likely the most important
-lines from the loop and output...
+lines from the loop and output... LESSON: When you rewrite code, you may
+introduce new bugs. This is why more serious projects have *regression tests*.
 
-In addition to the language construct in the zeroth version, you should spot the
+In addition to the language constructs in the zeroth version, you should spot the
 use of `for` loop and `case` *compound commands*, standard input, output and error
 *redirections*, command *list* `||`, *positional parameter* "trick" using `set`,
 variable *indirection* with `${!..}`, and *special parameter* `"$@"` (and the
@@ -150,7 +160,7 @@ precise meaning of *quoting* with `$@`).
 All in all, slightly cleaner, although works incorrectly :)
 
 
-# Iteration 2, back to running the `quota`command only once
+### Iteration 2, back to running the `quota`command only once
 
 This version is much more true to the original.
 
@@ -185,7 +195,7 @@ substitution and simple piping of the output of the `quota` command to the
 `while` compound command. What is it? Ten points if you can tell it :)
 
 
-# Iteration 3, thinking again what the function should do...
+### Iteration 3, thinking again what the function should do...
 
 Duh, much better, right?
 
@@ -212,4 +222,45 @@ pre-filtering them, and show only the ones that we wish. Notice also, how
 `printf` considers the fields of un-quoted `$line` as separate arguments.
 
 
+### Epilogue
 
+If you go even a little bit further, this function could be generalized even
+more:
+
+```bash
+desc_format="%.0s%-27s %8s/%-6s %.0s%.0s%8sk/%sk\n"
+long_format="%.0s%-25s %8s %5s       - %5s %8s %9s %9s     -\n"
+
+# printff takes format string as an argument, and for each line in the stdin,
+# splits the line into arguments, and prints them using `printf` and the
+# given format string.
+#
+function printff() {
+    while read line; do
+        printf "$1" $line
+    done
+}
+```
+
+In this context you would call it like this, for example:
+
+```bash
+printff "${desc_format}" < <(quota --show-mntpoint -ws | tail -n +3)
+```
+
+There exists also specialized utilities for line-by-line processing of text,
+such as `awk` and `sed`, which in many cases are better suited to the task than
+Bash alone.
+
+In fact the whole wrapper function and loop are not really necessary in this
+example. The the same can be achieved using plain `printf`:
+
+```bash
+printf "$desc_format" $(quota --show-mntpoint -ws | tail -n +3)
+```
+
+How and why does this work (something about how `printf` works, and how shell
+*command expansion* works)?
+
+And yes, it is ok to cry now a little bit. The last command line achieves
+basically the same goal as the original function...

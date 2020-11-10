@@ -27,12 +27,12 @@ titleslide: true
 Configuring readline: You can configure readline to use Vi style shortcuts, too. How?
 
 
-# Completing — avoid typing (and typos)
+# Completion — avoid typing (and typos)
 
-- Pressing the `TAB` key attempts to complete current word.
+- Pressing the `TAB` key attempts to complete the current word.
 - Bash attempts completion on variables (`$..`), usernames (`~..`), hostnames (`@..`),
   commands, aliases, functions, and file names.
-- To just see possible completions hit `M-?` (or `TAB` twice) and to insert all
+- To just see possible completions hit `M-?` (or `TAB` twice), and to insert all
   possible completions hit `M-*`.
 
 {:.Q}
@@ -45,8 +45,8 @@ is this documented?
 # Re-use command lines, history
 
 There is plenty of customization on how Bash keeps a record of the previous
-commands, <https://www.shellhacks.com/tune-command-line-history-bash/>. Usually
-it is enough to remember three key shortcuts,
+commands, see <https://www.shellhacks.com/tune-command-line-history-bash/>. To
+use the command history, it is usually enough to remember three key shortcuts,
 
 | `UP` / `DOWN` | Scroll up and down the command history |
 | `CTRL-r`      | Search the command history             |
@@ -55,16 +55,16 @@ Also 'HISTORY EXPANSION' is available, see `man bash`.
 
 {:.Q}
 
-Which environment variable controls how many previous commands Bash keeps in
-history, and which controls how many are saved to a file when shell exits?
+Which environment variable controls how many previous commands Bash keeps in the
+history, and which controls how many are saved to a file when the shell exits?
 
 
 # Process/job control
 
-Usually one has at least two programs running simultaneously, a command line and
-a text editor. One can switch between these either by using some sort of
-windowing system or just switch active process using `CTRL-z` for suspending the
-current process, and commands `fg`, `bg`, and `jobs`.
+Usually one has at least two programs running simultaneously, an interactive
+shell session and a text editor. One can switch between these either by using
+some sort of windowing system or just switch active process using `CTRL-z` for
+suspending the current process, and commands `fg`, `bg`, and `jobs`.
 
 {:.Q}
 

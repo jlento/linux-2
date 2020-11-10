@@ -22,9 +22,8 @@ fellows in the discussion forum!
 
 # Man pages
 
-- Learn how to search (`/`) and jump (`p`, `G`) in man pages
+- Learn how to search (`/`, `n`) and jump (`p`, `G`) in man pages
 - Learn the conventions (structure) of man pages, see `man man-pages`
-- At least half of the content of this course can be found from `man bash`
 - Different machines have different versions of the programs. Man pages
   document exactly the version in your machine.
 
@@ -32,6 +31,18 @@ fellows in the discussion forum!
 
 Pager: What is pager and what does it do? Name few pagers? What pager
 is your man command using?
+
+
+# Man Bash
+
+The most important course material for this course is `man bash`. The lectures
+and exercises contain terms (and operators) that you can search from the Bash
+man page.
+
+{:.Q}
+
+Man bash. How would you jump to the section of the Bash man page that describes
+*Parameter expansion*?
 
 
 # Debugging shell scripts
@@ -55,7 +66,7 @@ that you typed, but it also keeps the ones that did not work...
 # Bash-fu attitude!
 
 Do not settle with the first solution. Your next solution can be more
-obvious and succint.
+obvious and succinct.
 
 In practice, if you receive a shell script from a colleague, do not
 expect it to work for you out of the box. As is, it will not work for
