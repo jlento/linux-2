@@ -38,8 +38,8 @@ Before a command is executed, its input and output may be connected to
 non-default streams (*redirection*) using operators `|`, `<`, `>`, `<<<`, and/or
 `>>`.
 
-In many cases explicit temporary (yuck!) files can be avoided using redirections
-and pipes.
+In many cases explicit temporary (yuck!) files can be avoided using
+*redirection*, *pipes*, `tee` command, and *process substitution*.
 
 {:.Q}
 

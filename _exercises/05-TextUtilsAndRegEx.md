@@ -2,9 +2,13 @@
 title: Text utilities and regular expressions
 ---
 
+# Manipulating text
+
+
+
 # Regular expressions
 
-# The most simple regex
+## The most simple regex
 
 - In it's simplest form, a regular expression is a string of symbols to match "as is".
 
@@ -17,8 +21,7 @@ title: Text utilities and regular expressions
 $ grep '234'
 ```
 
-
-# Basic regexes vs. extended regexes
+## Basic regexes vs. extended regexes
 
 - The Basic Regular Expressions or _BRE flavor_ standardizes a flavor similar to the one used by the traditional UNIX `grep` command.
   - The only supported quantifiers are `.` (dot), `^` (caret), `$` (dollar), and `*` (star). To match these characters literally, escape them with a `\` (backslash).
@@ -31,7 +34,7 @@ $ alias grep='grep --color=auto -E'
 ```
 
 
-# Quantifiers
+## Quantifiers
 
 - To match several characters you need to use a quantifier:
   - `*` matches any number of what's before it, from zero to infinity.
@@ -49,7 +52,7 @@ $ grep '23*4'
 ```
 
 
-# Regexes are hoggish
+## Regexes are hoggish
 
 - By default, regexes are greedy. They match as many characters as possible.
 
@@ -63,7 +66,7 @@ $ grep '23*4'
   - `{m,}` matches _m_ or more number of what's before it (`{1,}`= `+`).
 
 
-# Special characters
+## Special characters
 
 - A lot of special characters are available for regex building. Here are some of the more usual ones:
   - `.` matches any single character.
@@ -73,7 +76,7 @@ $ grep '23*4'
   - `\` to escape special characters, e.g. `\.` matches a dot, and `\\` matches a backslash.
 
 
-# Special character examples
+## Special character examples
 
   | Regex     | Matches                      | Does not match       |
   |-----------|------------------------------|----------------------|
@@ -83,7 +86,7 @@ $ grep '23*4'
   | `^1.*3$`  | **13**, **123**, **1zdfkj3** | x13, 123x, x1zdfkj3x |
 
 
-# Character classes
+## Character classes
 
 - You can group characters by putting them between square brackets. This way, any character in the class will match any *one* character in the input.
   - `[abc]` matches any of a, b, and c.
@@ -95,7 +98,7 @@ $ grep '23*4'
     - Most special characters have no meaning inside the square brackets.
 
 
-# Character class examples
+## Character class examples
 
   | Regex               | Matches                                        | Does not match    |
   |---------------------|------------------------------------------------|-------------------|
@@ -104,7 +107,7 @@ $ grep '23*4'
   | `[0-9]*[,.]?[0-9]+` | **1**, **.1**, **0.1**, **1,000**, **0,0,0.0** |                   |
 
 
-# Grouping and alternatives
+## Grouping and alternatives
 
 - It might be necessary to group things together, which is done with parentheses `(` and `)`.
 
@@ -120,7 +123,7 @@ $ grep '23*4'
   | `(aa|bb)`  | **aa**, **bbaa**, **aabb** | abab           |
 
 
-# Subexpressions
+## Subexpressions
 
 - With parentheses, you can also define subexpressions to store the match after it has happened and then refer to it later on.
 
@@ -130,7 +133,7 @@ $ grep '23*4'
   | `(ab)c.*\1` | **abcabc**, **abcdefab**cdef | abc, ababc     |
 
 
-# Some practical (?) examples
+## Some practical (?) examples
 
 - Check for a valid format for email address:
 
@@ -151,13 +154,13 @@ $ grep '23*4'
 
 # Text utilities
 
-# What we will work over
+## What we will work over
 
 - Your shell has built-in spread-sheet functions
 - You can find/extract/combine text row or column-wise
 
 
-# Adding files side-by-side: paste
+## Adding files side-by-side: paste
 
 ```bash
 paste [-d del -s] file1 file2 [file3 …]
@@ -174,7 +177,7 @@ $ paste -d ' ' count.txt sheep.txt > counting_sheep_space.txt # creates merged f
 ```
 
 
-# Trimming files: cut
+## Trimming files: cut
 
 ```bash
 cut [-d del -f no -s] file1 file2 …
@@ -193,7 +196,7 @@ $ cut -f 1 -d ' ' counting_sheep_space.txt
 - both will display the original content of count.txt
 
 
-# Counting lines [and sheep]: wc
+## Counting lines [and sheep]: wc
 
 ```bash
 wc [-l -w -m -c] file1 [file2 …]
@@ -211,7 +214,7 @@ $ wc -l sheep_space.txt
 ```
 
 
-# Combining files end to start: cat
+## Combining files end to start: cat
 
 ```bash
 cat [-n -E -v -T] file1 file2 …
@@ -232,7 +235,7 @@ $ cat -T -E sheep_tab.txt
 ```
 
 
-# Extracting beginning and end of files: head and tail
+## Extracting beginning and end of files: head and tail
 
 ```bash
 head [-n N] file1 [file2 …]
@@ -251,7 +254,7 @@ tail [-n N -f --pid PID] file1 [file2 …]
   - `--pid PID` terminate tail-command in sync with termination of process with process ID *PID*
 
 
-# Bringing order into files: sort
+## Bringing order into files: sort
 
 ```bash
 sort [-d -f -g ] file1 [file2 …]
@@ -269,7 +272,7 @@ $ sort -g sheep_lines.txt
 ```
 
 
-# Removing redundancy in files: uniq
+## Removing redundancy in files: uniq
 
 ```bash
  uniq [-c -f -s -w ] file1 [file2 …]
@@ -286,9 +289,7 @@ $ sort -g sheep_lines.txt
 $ uniq -c -f 1 -w 10 sheep_lines.txt
 ```
 
-# Awk
-
-# awk - text processing
+## Awk - text processing
 
 - Developed at Bell Labs in 1977 by Aho (not Esko, but Alfred Vainö!), Weinberger, Kernighan
 - A versatile scripting language which resembles C (surprise! - Kernighan & Ritchie)
@@ -297,7 +298,7 @@ $ uniq -c -f 1 -w 10 sheep_lines.txt
 - awk command scripting is also available
 
 
-# awk - command line 
+## awk - command line 
 
 - To print a certain column (`$2` here refers to 2<sup>nd</sup> column in row – will be explained later) of a file, type the following to the terminal:
 
@@ -319,7 +320,7 @@ $ cat /etc/mime.types | awk '{print $2}'
 ```
 
 
-# awk pattern matching 
+## awk pattern matching 
 
 - awk commands allow to test the input against regular expression (enclosed in `/ /`):
 
@@ -343,7 +344,7 @@ $ awk '!/#/' /etc/mime.types | less
 - compare with `less /etc/mime.types`
 
 
-# awk scripts
+## awk scripts
 
 - You can save your awk directives in a text file (a.k.a. script).
 - Why should I?
@@ -358,7 +359,7 @@ $ awk -f myscript.awk inputfile.txt > outputfile.txt
 ```
 
 
-# awk scripts (cntd.)
+## awk scripts (cntd.)
 
 - Mostly in scripts (can also be used in command line), we need pre- and postprocessing steps.
   - Actions taken *before* and *after* the text file is parsed, i.e., not tested against the input.

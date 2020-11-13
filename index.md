@@ -19,7 +19,8 @@ premises]({{ site.baseurl }}{% link WhereAboutsCSCPremises.md %}).
 
 # Course pre-requirements
 
-Before Linux-2, you should have completed Linux-1, or
+Before Linux-2, you should have completed
+[Linux-1](https://github.com/csc-training/linux-1/tree/ThomasZ), or
 equivalently,
 
 - be familiar with basic Linux command line use and shell programming

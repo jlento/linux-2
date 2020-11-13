@@ -65,7 +65,7 @@ commands return an exit value.
 {:.Q}
 
 Integer arithmetic conditions are often useful. What is the syntax for
-arithmetic evaluation?
+arithmetic evaluation/expression?
 
 
 # Compound commands

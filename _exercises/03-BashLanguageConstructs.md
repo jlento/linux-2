@@ -3,153 +3,212 @@ title: Bash language constructs
 ---
 
 
+# Comments
+
+## Shebang
+
+If a file begins with`#!`, for example
+
+```bash
+#!/bin/bash
+```
+
+or
+
+```bash
+`#!/usr/bin/python
+```
+
+it has a special meaning. What is it?
+
+There is a default interpretation if the shebang is missing altogether. What is it?
+
+Tip: Some file `prog.c` could begin like this(!):
+
+```bash
+//usr/bin/env cc "$0" && exec ./a.out "$@"
+```
+
+What could this possibly do?
+
+
+# Lists of commands
+
+In general, prefer newlines over semicolons for readability. One-liners are ok
+on command line, but mostly ugly in scripts.
+
+Task parallelism is super-easy with bash. For example, if you have some commands
+that need to wait for an outside service response, such as www request, you can
+easily run them in the background in subshells:
+
+```bash
+some-slow-command > file1 &
+some-other-slow-command > file2 &
+some-other-slow-command > file3 &
+```
+
+If your script then needs to work on the results of the background commands, you
+need to add something. What is it?
+
+
+# Conditionally executing lists
+
+It is quite easy to get a good feeling how conditionally executing lists work
+using two simple commands, `true` and `false`, that only return exit value 0
+(success) or 1 (error), respectively, and do nothing else. Try for example
+something like
+
+```bash
+false && true || false
+echo $?
+true && true || false
+echo $?
+```
+
+These are equivalent to if-then-else compound command. You can create more
+complex logic using command grouping with `{...; }`, but usually if-then-else is
+easier to read. Or even better, always try to simplify complex logic to simple
+one :)
+
+The most common use case is simple
+
+```bash
+command-that-can-fail || what-to-do-when-previous-command-failed
+```
+
+In general, if you ever find deep nesting if's or for-loops (also called
+tornados), it is a warning sign. You probably need to do some re-thinking and
+flatten those deep nesting structures. This applies to all programming
+languages, not only Bash.
+
+
 # Conditional expressions
 
-- The _test-commands_ often involves numerical or string comparison tests, but it can be any command that returns a status of zero when it succeeds, and some other status when it fails.
-- Bash provides two comparison expressions:
-  - command `test` (and it's synonym `[`), which is more portable but limited in features; and
-  - the "new test" command `[[`, which has fewer surprises and is generally safer to use — but works only in Bash.
+The _test-commands_ often involves numerical or string comparison tests, but it
+can be any command that returns a status of zero when it succeeds, and some
+other status when it fails. Bash provides two comparison expressions, command
+`test` (and it's synonym `[`), which is more portable but limited in features,
+and the "new test" command `[[`, which has fewer surprises and is generally
+safer to use — but works only in Bash.
+
+There are many ways you can write the same conditional:
 
 ```bash
-$ if [ "$LOGNAME" = "cscuser" ]; then
->    echo 'Good day!';
-> fi
+if [ "$LOGNAME" = "cscuser" ]; then
+   echo 'Good day!';
+fi
+
+if [ "$LOGNAME" = "cscuser" ]; then echo 'Good day!'; fi
+
+if test "$LOGNAME" = "cscuser"; then echo 'Good day!'; fi
+
+test "$LOGNAME" = "cscuser" && echo 'Good day!'
+
+[ "$LOGNAME" = "cscuser" ] && echo 'Good day!'
 ```
 
+Of course you can test many other things besides the string equivalence, see
+`man test`, for example.
 
-# Conditional expressions
-
-```bash
-$ if [ "$LOGNAME" = "cscuser" ]; then echo 'Good day!'; fi
-$ if test "$LOGNAME" = "cscuser"; then echo 'Good day!'; fi
-$ test "$LOGNAME" = "cscuser" && echo 'Good day!'
-$ [ "$LOGNAME" = "cscuser" ] && echo 'Good day!'
-
-$ if [ "$LOGNAME" = "cscuser" ]; then echo 'Good day!'; else echo 'How do you do!'; fi
-$ [ "$LOGNAME" = "cscuser" ] && echo 'Good day!' || echo 'How do you do!'
-
-$ [ -e "Desktop" ] && echo "File Desktop exists."
-$ [ "Desktop" -nt "exp" ] && echo "Desktop is newer" || echo "exp is newer"
-
-$ [ $(id -u) -ne $UID ] && echo "User ID's do not match."
-$ [ $(( $(id -u) + 1 )) -ne $UID ] && echo "User ID's do not match."
-
-$ if [ -e Desktop -a -d Desktop ]; then echo "Desktop is a directory"; fi
-$ [[ -e Desktop && -d Desktop ]] && echo "Desktop is a directory"   # This is similar with [[]]
-$ [ -e Desktop && -d Desktop ] && echo "Desktop is a directory"   # This does not work
-```
+How would you test if a file 1) exists, 2) is a directory, or 3) is newer than some other file?
 
 
-# Looping constructs
+# Compound commands
 
-- Bash supports the following looping constructs (note that a `;` may be replaced with a newline):
-  - `until` _test-commands_ `; do` _consequent-commands_ `; done`<br/>
-  Execute _consequent-commands_ as long as _test-commands_ has an exit status which is not zero.
-  - `while` _test-commands_`; do` _consequent-commands_`; done`<br/>
-  Execute _consequent-commands_ as long as _test-commands_ has an exit status of zero.
-  - `for` _name_ `[ [in [`_words …_`] ] ; ] do` _commands_`; done`<br/>
-  Expand _words_ and execute _commands_ once for each member in the resultant list, with _name_ bound to the current member.
+## Looping constructs
 
-
-# Looping constructs
+Bash supports the following looping constructs:
 
 ```bash
-$ for sqr in 1 2 3 4 5 6; do echo $(( 2 ** $sqr )); done
-$ for sqr in {1..6}; do echo $(( 2 ** $sqr)); done
-$ for (( sqr = 1; sqr <= 6; sqr++ )); do echo $(( 2 ** $sqr )); done
-```
+until test-commands; do commands ; done
 
-```bash
-$ for sqr in {1..6..2}; do echo $(( 2 ** $sqr )); done
-```
+while test-commands; do commands; done
 
-```bash
-$ for i in *; do echo "$i"; done   # Equivalent to 'ls -1'
-```
+for name in words; do commands; done
 
-```bash
-$ for ns in $(grep ^nameserver /etc/resolv.conf); do
->   if [ $ns = nameserver ]; then continue; fi
->   ping -c1 $ns
-> done
-$ for ns in "$(grep ^nameserver /etc/resolv.conf)"; do ping -c1 ${ns##nameserver }; done
-```
-
-{:.Q}
-
-Avoiding loops: Often you can avoid writing a loop by just realizing that a
-command can operate on multiple arguments, such as file names, instead
-of just a single one at a time. Can you find such commands?
-
-
-# Looping constructs
-
-```bash
-while read -r line; do
-  echo "You typed: $line"
-  [ "$line" = "end" ] && break
+for (( initialize-variable; stop-condition; increment-variable ))
+do
+    commands
 done
 ```
 
+Note how a `;` may be replaced with a newline, or vice versa.
+
+How would you write a loop that prints out the squares of numbers from 1 to 6?
+
+How would you loop over a list of files in the current directory?
+
+How would you write a loop that waits for the user to input a line and prints
+it, and repeats until the user gives input "end"?
+
+## Avoiding loops
+
+Often you can avoid writing a loop by just realizing that a command can operate
+on multiple arguments, such as file names, instead of just a single one at a
+time. Can you find such commands?
+
+
+## Command grouping
+
+Bash provides two ways to group a list of commands to be executed as a unit.
+
+### ( _list_ )
+  
+Placing a _list_ of commands between parentheses causes a subshell environment
+to be created, and each of the commands in _list_ to be executed in that
+subshell.
+
+###  { _list_; }
+
+Placing a _list_ of commands between curly braces causes the _list_ to be
+executed in the current shell context. The semicolon (or newline) following
+_list_ is required.
+
+Example:
+
 ```bash
-until [ "$line" = "end" ]; do
-  read -r line
-  echo "You typed: $line"
-done
+{ echo "Directory listing:"; ls; } > dir_list
 ```
 
 
-# Command grouping
+# Functions
 
-- Bash provides two ways to group a list of commands to be executed as a unit.
-
-  ( _list_ )
-    : Placing a _list_ of commands between parentheses causes a subshell environment to be created, and each of the commands in _list_ to be executed in that subshell.
-
-  { _list_; }
-    : Placing a _list_ of commands between curly braces causes the _list_ to be executed in the current shell context. The semicolon (or newline) following _list_ is required.
+Shell functions are a way to group commands for later execution using a single name for the group. There are two ways to declare a function:
 
 ```bash
-$ ( echo "Directory listing:"; ls ) > dir_list
+function-name () compound-command
+function function-name compound-command
 ```
 
+Function declaration may be followed by redirections.
 
-
-
-- Shell functions are a way to group commands for later execution using a single name for the group.
-- Functions are declared using either of these these syntax:<br/>
-_name_ `()` _compound-command_ `[` _redirections_ `]`<br/>
-`function` _name_ `[()]` _compound-command_ `[` _redirections_ `]`
-
-- When a function is executed, the arguments to the function become the positional parameters during its execution.
+When a function is executed, the arguments to the function become the positional
+parameters during its execution.
 
 ```bash
 $ ll () { ls -laF "$@" | more; }
 ```
 
-https://unix.stackexchange.com/questions/81202/passing-a-code-block-as-an-anon-function
+## Functional style
 
-# List processing
-map() { while IFS='' read -r x; do "$@" "$x"; done; }
-filter() { while IFS='' read -r x; do "$@" "$x" >&2 && echo "$x"; done; }
-foldr() { local f="$1"; local result="$2"; shift 2;  while IFS='' read -r x; do result="$( "$f" "$@" "$x" "$result" )"; done; echo "$result"; }
-foldl() { local f="$1"; local result="$2"; shift 2;  while IFS='' read -r x; do result="$( "$f" "$@" "$result" "$x" )"; done; echo "$result"; }
+It is possible to write also functional style functions in Bash, although they
+are not necessary as efficient as in actual functional programming languages. A
+nice example can be found in
+<https://unix.stackexchange.com/questions/81202/passing-a-code-block-as-an-anon-function>
 
-# Helpers
-re() { [[ "$2" =~ $1 ]]; }
+## Exercises in functions
 
-# Example helpers
-toLower() { tr '[:upper:]' '[:lower:]'; }
-showStructure() { [[ "$1" == "--curly" ]] && echo "{$2; $3}" || echo "($1, $2)"; }
+Write a function that checks if a given year is a leap year.
 
-# All lib* directories, ignoring case, using regex
-ls /usr | map toLower | filter re 'lib.*'
+Write a function that checks if a given string is a valid date of the form
+DDMMYYYY.
 
-# All block devices. (Using test, for lack of a full bash [[ … ]].)
-cd /dev; ls | filter test -b
+Write a function that checks if a given year is a valid finnish social security
+number. (This is entirely optional exercise.)
 
-# Show difference between foldr and foldl
-$ ls / | foldr showStructure '()'
-(var/, (usr/, (tmp/, (sys/, (sbin/, (run/, (root/, (proc/, (opt/, (mnt/, (media/, (lost+found/, (lib64/, (lib32/, (lib@, (home/, (etc/, (dev/, (daten/, (boot/, (bin/, ())))))))))))))))))))))
-$ ls / | foldr showStructure '{}' --curly
-{var/; {usr/; {tmp/; {sys/; {sbin/; {run/; {root/; {proc/; {opt/; {mnt/; {media/; {lost+found/; {lib64/; {lib32/; {lib@; {home/; {etc/; {dev/; {daten/; {boot/; {bin/; {}}}}}}}}}}}}}}}}}}}}}}
+Many Linux systems have a nice program `pstree` that can be used to print
+process trees. A bit like a more visual `ps`. For example, if you would like to
+see all the ancestors of your current process, you coud run `pstree -s $$`. Mac
+OS is lacking this program. Write a function that lists all the ancestors of
+your current process (a process stack) using a while loop. Can you write the
+same using a recursive function?

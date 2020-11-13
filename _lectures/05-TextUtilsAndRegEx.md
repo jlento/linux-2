@@ -6,14 +6,14 @@ lang: en
 ---
 
 
-# Searching and replacing text
+# Manipulating text
 
 Unix has powerful tools to search and modify _line oriented_ text files, such as
 `grep`, `awk`, `sed`, `diff`, `sort`, `cut`, `paste`, `fmt`, `column`, ... Many
 of these tools can match string patterns, using *regular expressions*.
 
 Warning: Using these tools for other than line oriented text file formats, such
-as XML or JSON, may be tricky.
+as XML, YAML, or JSON, may be tricky.
 
 
 # Regular expressions
