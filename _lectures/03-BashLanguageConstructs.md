@@ -1,5 +1,5 @@
 ---
-title:	Bash Language constructs
+title:	Bash language constructs
 author:	CSC Training
 titleslide: true
 lang:	en

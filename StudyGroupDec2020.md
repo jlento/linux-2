@@ -5,10 +5,15 @@ presentation-date: 2020-12-14
 
 # Online Study group format
 
-Programming is best learned by doing. During the first week the
-students read the material and do the exercises independently. The
-second week of the course adds lectures and discussion in the form of
-online meetings.
+Programming is best learned by doing. The emphasis in this course is not on the
+lectures (slides only). The students will need to search information
+independently, to find the answers to the questions in the lecture material and
+in the exercises. This reflects more accurately the situation in which the
+skills are needed in practice. After students have proposed different answers
+and solutions, we discuss their merits and shortcomings together.
+
+Having access to a Linux terminal is mandatory for solving the
+exercises, and very useful for answerng the more general questions, too.
 
 
 # Independent study
@@ -19,26 +24,6 @@ small groups and/or use the course discussion forum to exchange ideas
 and ask for help. The lecturers follow the forum too, to comment and
 help if needed.
 
-A good effort is about 90 minutes each day. Some subjects may take
-less, some more. The important thing is to devote some time for the
-study each day during the course.
-
-
-# Timetable
-
-- Enroll to the course in eLena
-
-- Independent study week
-   - 7.12. Join kick-off meet in Zoom
-   - 7\. - 13.12. Read the lecture material, do the programming
-     exercises, and discuss the questions and exercises in eLena
-     (Moodle) forum
-     
-- Topical discussions in Zoom
-   - 14.12. Bash
-   - TODO: Finish list after material update
-   - 18.12. Course feedback 
-
 
 # Resources
 
@@ -46,8 +31,8 @@ study each day during the course.
   <https://e-learn.csc.fi/>
 - Independent stydy material, lecture notes and exercises in
   <https://csc-training.github.io/Linux-2/>
-- Zoom meetings, discussion and live demos in
-  <https://joku.zoom.huoneen/osoite.zoomi>
+- Zoom meetings, discussion and live demos in Zoom. Link in the e-learn course
+  page.
 
 
 # A fair warning
