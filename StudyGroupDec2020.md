@@ -30,7 +30,7 @@ help if needed.
 - Course enrollment, progress tracking and discussion forums in
   <https://e-learn.csc.fi/>
 - Independent stydy material, lecture notes and exercises in
-  <https://csc-training.github.io/Linux-2/>
+  <https://jlento.github.io/linux-2/>
 - Zoom meetings, discussion and live demos in Zoom. Link in the e-learn course
   page.
 
