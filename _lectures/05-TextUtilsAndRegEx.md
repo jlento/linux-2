@@ -59,12 +59,12 @@ How do you quickly jump to "SHELL BUILTIN COMMANDS" chapter in `man bash`?
 
 Personal favorites:
 
-| grep _/regex/_ | Filter the interesting lines |
-| awk -f prog.awk | Spreadsheet programming language |
-| sed _/regex/_   | Search and replace |
-| sort | Sort lines |
-| fmt | Format text |
-| column | Format tables |
-| gnuplot | Visualize data |
+| grep    | Filter the interesting lines     |
+| awk     | Spreadsheet programming language |
+| sed     | Search and replace               |
+| sort    | Sort lines                       |
+| fmt     | Format text                      |
+| column  | Format tables                    |
+| gnuplot | Visualize data                   |
 
 Check the corresponding man pages!

@@ -1,35 +1,20 @@
 ---
-title: Exercises
+title: Hands-on exercises
 ---
 
-## Notation
 
-In these instructions the *first* character “**\$**” in the command
-examples should not be typed, but it denotes the command prompt.
+If you have not already done so, download and unpack example data files in
+[handson.tar.gz]({{ site.baseurl }}{% link handson.tar.gz %}).
 
-Some command lines are too long to fit a line in printed form. These are
-indicated by a backslash “**\\**” at the end of line. It should not be
-included when typing in the command. For example
-
-```console
-$ example command \
-continues \
-and continues
+```bash
+$  curl -s https://jlento.github.io/linux-2/handson.tar.gz | tar zxvf -
 ```
 
-Should be typed in as:
-
-```console
-$ example command continues and continues
-```
+In this document we use '`$ `' in front of the user input, to make it easier to
+separate from command outputs.
 
 
-## 0 Download and unpack the exercise files (do that first time only)
-
-Moodle page and download exercise tar-file. Untar and cd into the directory.
-
-
-# First Day
+# First batch
 
 
 ## 1 Find shell scripts
@@ -104,8 +89,8 @@ manipulating a large set of similarly named files
 0) Unpack the jpegs.tar file
 
 ```console
-$ cd FileRename
-$ tar xvf jpegs.tar
+$  cd handson/FileRename
+$  tar xvf jpegs.tar
 ```
 
 Find out, whether ImageMagik - a legacy graphics program in Linux –
@@ -113,19 +98,19 @@ containing the programs convert (file conversion), display (rendering of
 pictures) and animate (rendering of films) is installed
 
 ```console
-$ which convert
+$  which convert
 ´´´
 
 If it cannot be found, install
 
 ```console
-$ sudo apt-get install imagemagick
+$  sudo apt-get install imagemagick
 ```
 
 1) Find out what directories and files were created
 
 ```console
-$ ls \*.jpg
+$  ls *.jpg
 ```
 
 You find out that the naming is numbered, but the listing is not in
@@ -133,7 +118,7 @@ order. Hence, if you produce an animated gif from this bunch of files
 using the ImageMagik command convert:
 
 ```console
-$ convert –delay 30 –loop 2 \*.jpg animation\_small.gif
+$  convert –delay 30 –loop 2 *.jpg animation_small.gif
 ```
 
 you will get strange results, as the input jpeg’s are ordered by the
@@ -141,7 +126,7 @@ first digit, i.e. {0, 10, 11, …, 19, 1, 20, 21, …, 29, 2, 30, …, 50, 5,
 6, 7, 8, 9}. Try it:
 
 ```console
-$ animate animation\_small.gif
+$  animate animation_small.gif
 ```
 
 2) Resize and convert files
@@ -152,7 +137,7 @@ hand would be tedious, as one would have to make 10 shell commands
 similar to that one
 
 ```console
-$  mv 0\_singleframe\_small.jpg 00\_singleframe\_small.jpg
+$  mv 0_singleframe_small.jpg 00_singleframe_small.jpg
 ```
 
 Additionally, we also want to resize the output using the ImageMagik
@@ -160,15 +145,15 @@ command **convert**. In a combined way that would read for single digit
 numbers (0-9, here using 0):
 
 ```console
-$  convert –resize 200% 0\_singleframe\_small.jpg \
-  00\_singleframe\_large.jpg
+$  convert –resize 200% 0_singleframe_small.jpg \
+     00_singleframe_large.jpg
 ```
 
 as well as for double digit numbers (10-50, here using 10):
 
 ```console
-$  convert –resize 200% 10\_singleframe\_small.jpg \
-  10\_singleframe\_large.jpg
+$  convert –resize 200% 10_singleframe_small.jpg \
+     10_singleframe_large.jpg
 ```
 
 which would force us to give 51 shell commands. But we can use the power
@@ -179,16 +164,12 @@ above:
 
 ```console
 $  for i in {0..9}; do
-       ls {i}\_singleframe\_small.jpg
-       echo "converting to 0 {i}\_singleframe\_small.jpg"
+     ls {i}_singleframe_small.jpg
+     echo "converting to 0 {i}_singleframe_small.jpg"
    done
 ```
 
-You can (later on!!) look up the solution in convert.sh.
-
-
-# Second Day
-
+# Second batch
 
 ## 1 Spread-sheet operations using awk
 
@@ -203,20 +184,20 @@ about Lapland’s capital.
 0) Move to data-subdirectory
 
 ```console
-$  cd exercises/awk/Meteo
+$  cd handson/awk/Meteo
 ```
 
 1) Inspect the input file
 
 ```console
-$ less rovaniemi.txt
+$  less rovaniemi.txt
 ```
 
 2) Inquire total yearly precipitation and monthly average daily
 precipitation
 
-The 4^th^ column contains rainfall (in mm m^-2^). Inquire the over-all
-sum of precipitation. Using the 5^th^ column (Rainy days) inquire the
+The 4th column contains rainfall (in mm m-2). Inquire the over-all
+sum of precipitation. Using the 5th column (Rainy days) inquire the
 average daily precipitation of a rainy day for each month. Hint: you
 need to exclude the first line (header) of the file, best by using a
 regular expression inside your awk-script.
@@ -244,8 +225,7 @@ $  cd Exercises/awk/fem
 1) Make a listing
 
 ```console
-$  ls\
-$  ls unitsquare**
+$  ls unitsquare
 ```
 
 You will see the files describing a Finite Element Method (FEM) Mesh:\
@@ -280,16 +260,16 @@ $  gnuplot
 In **gnuplot** we want to be sure that the
 length-scales are equal on both axis:
 
-**gnuplot&gt; set size ratio -1**
+**gnuplot> set size ratio -1**
 
 Further, we want to plot the x-y coordinates in the file
 **unitsquare/mesh.nodes**
 
-**gnuplot&gt; plot 'unitsquare/mesh.nodes' u 3:4 w p **
+**gnuplot> plot 'unitsquare/mesh.nodes' u 3:4 w p**
 
 This is the syntax that plots contents of **unitsquare/mesh.nodes**
 
-using (**u**) the 3^rd^ and 4^th^ column (which are the coordinates) of
+using (**u**) the 3rd and 4th column (which are the coordinates) of
 the file with (**w**) points (**p**).
 
 *4) Transform coordinates using* awk
@@ -300,8 +280,8 @@ x-axis with a factor 10.0 and the y-axis with a factor 0.5 using an
 that, if called as:
 
 ```console
-$  awk -f deform\_mesh.awk unitsquare/mesh.nodes &gt;
-deformedmesh/mesh.nodes
+$  awk -f deform\_mesh.awk unitsquare/mesh.nodes \
+     >deformedmesh/mesh.nodes
 ```
 
 morphs **unitsquare/mesh.nodes** into the scaled mesh
@@ -316,7 +296,7 @@ achieve that, you can use the history of the previously given
 **gnuplot** command (upward pointing arrow on keyboard) and simply add
 (mind that everything is a one-liner)
 
-**gnuplot&gt; plot 'unitsquare/mesh.nodes' u 3:4 w p,
+**gnuplot> plot 'unitsquare/mesh.nodes' u 3:4 w p,
 'deformedmesh/mesh.nodes' u 3:4 w p**
 
 ![](/img/ex/image2.png)
@@ -358,13 +338,13 @@ command (just as an example. **DON’T DO THAT**! – we do not want to blow
 up our and NSDIC’s network).
 
 ```console
-$  wget ftp://sidads.colorado.edu/pub/DATASETS/AGDC/luyendyk\_nsidc\_0119/\*
+$  wget ftp://sidads.colorado.edu/pub/DATASETS/AGDC/luyendyk_nsidc_0119/\*
 ```
 
 **INSTEAD** untar-gzip the provided file:
 
 ```console
-$  tar xvzf luyendyk\_nsidc\_0119.tgz
+$  tar xvzf luyendyk_nsidc_0119.tgz
 ```
 
 Now we have two ASCII files:
@@ -380,8 +360,8 @@ the **wc** command. We just want to work with a smaller sub-set of the
 data. Hence we reduce the size to the first 10000 lines, only.
 
 ```console
-$  head –n 10000 srfelev.txt &gt; srfelev\_reduced.txt
-$  head –n 10000 icethick.txt &gt; icethick\_reduced.txt
+$  head –n 10000 srfelev.txt > srfelev_reduced.txt
+$  head –n 10000 icethick.txt > icethick_reduced.txt
 ```
 
 The problem now is, that we do not have a consistent dataset at places
@@ -407,7 +387,7 @@ within -79.6 and -79.2 degrees (southern latitude). Let’s inquire the
 position within the file for the lower bound:
 
 ```console
-$  cat -n srfelev\_reduced.txt |grep "79.6000"
+$  cat -n srfelev_reduced.txt | grep "79.6000"
 ```
 
 Output:
@@ -419,7 +399,7 @@ Wy-Y11a
 And the same for ice thickness:
 
 ```console
-$  cat -n icethick\_reduced.txt |grep "79.6000"
+$  cat -n icethick_reduced.txt | grep "79.6000"
 1962 -79.600072 -144.39008 681.5 1998 358 10256.30 RTZ8/32\\
 Wy-Y11a
 ```
@@ -428,17 +408,17 @@ So, we have to use the last (10000 – 2879) = 7121 and (10000 – 1962) =
 8038 entries.
 
 ```console
-$  tail -n 7121 srfelev\_reduced.txt &gt; srfelev\_reduced2.txt
-$  tail -n 8038 icethick\_reduced.txt &gt; icethick\_reduced2.txt
+$  tail -n 7121 srfelev_reduced.txt > srfelev_reduced2.txt
+$  tail -n 8038 icethick_reduced.txt > icethick_reduced2.txt
 $  gnuplot showdata2.gp
 ```
 
 Now, the same for the upper bound of -79.2 degrees:
 
 ```console
-$  cat -n srfelev\_reduced2.txt |grep "79.2000"
+$  cat -n srfelev_reduced2.txt | grep "79.2000"
 5892 -79.200076 -147.74868 …
-$  cat -n icethick\_reduced2.txt |grep "79.2000"
+$  cat -n icethick_reduced2.txt | grep "79.2000"
 5739 -79.200076 -147.74868 …
 ```
 
@@ -446,8 +426,8 @@ But now we need the heading lines, not the trailing and spare us the
 math!
 
 ```console
-$  head -n 5892 srfelev\_reduced2.txt &gt; srfelev\_reduced3.txt
-$  head -n 5739 icethick\_reduced2.txt &gt; icethick\_reduced3.txt
+$  head -n 5892 srfelev_reduced2.txt > srfelev_reduced3.txt
+$  head -n 5739 icethick_reduced2.txt > icethick_reduced3.txt
 $  gnuplot showdata3.gp
 ```
 
@@ -458,10 +438,10 @@ Let’s sort the lines according to the thickest ice and the highest
 elevation and extract the 100 maximum values
 
 ```console
-$  sort -n -k3 -r srfelev\_reduced3.txt|head -n 100 &gt;
-srfelev\_max.txt
-$  sort -n -k3 -r icethick\_reduced3.txt|head -n 100 &gt;
-icethick\_max.txt
+$  sort -n -k3 -r srfelev_reduced3.txt | head -n 100 \
+     >srfelev\_max.txt
+$  sort -n -k3 -r icethick\_reduced3.txt | head -n 100 \
+     >icethick\_max.txt
 ```
 
 Let’s check how max ice thickness and elevation correlate in their

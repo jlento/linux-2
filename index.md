@@ -42,6 +42,13 @@ just tweak the print settings a bit.
 
 # Excercises
 
+Some of the exercises use small data files in [handson.tar.gz]({{ site.baseurl }}{% link
+handson.tar.gz %}), which you can download and unpack from command line using
+
+```bash
+curl -s https://jlento.github.io/linux-2/handson.tar.gz | tar zxvf -
+```
+
 {% for exercise in site.exercises %}
 - [{{ exercise.title }}]({{ exercise.url | relative_url }})
 {% endfor %}

@@ -110,7 +110,13 @@ test "$LOGNAME" = "cscuser" && echo 'Good day!'
 Of course you can test many other things besides the string equivalence, see
 `man test`, for example.
 
-How would you test if a file 1) exists, 2) is a directory, or 3) is newer than some other file?
+Why do you need spaces between the arguments `"$LOGNAME"`, `=`, and `"cscuser"`?
+What were you actually testing, if you would write the arguments together
+without spaces in between?
+
+How would you test if a file 1) exists, 2) is a directory, or 3) is newer than
+some other file?
+
 
 
 # Compound commands
