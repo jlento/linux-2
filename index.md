@@ -40,7 +40,7 @@ just tweak the print settings a bit.
 {% endfor %}
 
 
-# Excercises
+# Exercises
 
 Some of the exercises use small data files in [handson.tar.gz]({{ site.baseurl }}{% link
 handson.tar.gz %}), which you can download and unpack from command line using
