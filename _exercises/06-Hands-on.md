@@ -350,7 +350,7 @@ $  tar xvzf luyendyk_nsidc_0119.tgz
 Now we have two ASCII files:
 
 ```console
-$  ls -l \*.txt
+$  ls -l *.txt
 -rwxrwxrwx 1 root root 170M Mar 9 2004 srfelev.txt
 -rwxrwxrwx 1 root root 114M Mar 9 2004 icethick.txt
 ```
